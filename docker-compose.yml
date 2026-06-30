@@ -1,0 +1,57 @@
+version: "3.9"
+
+services:
+
+  mysql:
+    image: mysql:8.4
+    container_name: requisicoes_mysql
+    restart: unless-stopped
+
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: requisicoes
+      MYSQL_USER: laravel
+      MYSQL_PASSWORD: laravel
+
+    ports:
+      - "3306:3306"
+
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  backend:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+
+    container_name: requisicoes_backend
+    working_dir: /var/www/html
+
+    volumes:
+      - ./backend:/var/www/html
+
+    depends_on:
+      - mysql
+
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/node/Dockerfile
+
+    container_name: requisicoes_frontend
+    working_dir: /app
+
+    volumes:
+      - ./frontend:/app
+
+    ports:
+      - "4200:4200"
+
+    stdin_open: true
+    tty: true
+
+volumes:
+  mysql_data:
