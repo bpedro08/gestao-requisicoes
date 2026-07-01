@@ -1,0 +1,53 @@
+# ==========================
+# Operating System
+# ==========================
+.DS_Store
+Thumbs.db
+
+# ==========================
+# IDE
+# ==========================
+.vscode/
+.idea/
+
+# ==========================
+# Logs
+# ==========================
+*.log
+
+# ==========================
+# Environment
+# ==========================
+.env
+
+# ==========================
+# Docker
+# ==========================
+mysql_data/
+
+# ==========================
+# Laravel
+# ==========================
+backend/vendor/
+backend/node_modules/
+backend/storage/*.key
+backend/storage/logs/*
+backend/storage/framework/cache/*
+backend/storage/framework/sessions/*
+backend/storage/framework/views/*
+backend/bootstrap/cache/*
+backend/public/hot
+
+# ==========================
+# Angular
+# ==========================
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+frontend/coverage/
+
+# ==========================
+# Temporary
+# ==========================
+*.tmp
+*.swp
