@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\ResourceController;
+use App\Http\Controllers\RequestController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -25,4 +26,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/resources/{resource}',    [ResourceController::class, 'update']);
     Route::get('/resources/{resource}',    [ResourceController::class, 'show']);
     Route::delete('/resources/{resource}', [ResourceController::class, 'destroy']);
+
+        // Request routes
+    Route::get('/requests',                        [RequestController::class, 'index']);
+    Route::post('/requests',                       [RequestController::class, 'store']);
+    Route::get('/requests/{resourceRequest}',      [RequestController::class, 'show']);
+    Route::patch('/requests/{resourceRequest}/cancel', [RequestController::class, 'cancel']);
 });
