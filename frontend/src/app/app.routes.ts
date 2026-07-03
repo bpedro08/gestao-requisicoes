@@ -7,5 +7,12 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/auth/login/login')
         .then(m => m.LoginComponent)},
+    {
+    path: 'requests',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/requests/request-list/request-list')
+        .then(m => m.RequestList)
+  },
   { path: '**', redirectTo: 'login' }
 ];

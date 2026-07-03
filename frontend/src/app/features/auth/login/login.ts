@@ -28,24 +28,25 @@ export class LoginComponent {
   }
 
   submit() {
-    if (this.form.invalid) return;
+  if (this.form.invalid) return;
 
-    this.loading = true;
-    this.error   = '';
+  this.loading = true;
+  this.error   = '';
 
-    this.auth.login(this.form.value.email, this.form.value.password).subscribe({
-      next: () => {
-        // redirect based on role
-        if (this.auth.isAdmin()) {
-          this.router.navigate(['/requests']);
-        } else {
-          this.router.navigate(['/requests']);
-        }
-      },
-      error: () => {
-        this.error   = 'Invalid email or password';
-        this.loading = false;
-      }
-    });
+      this.auth.login(this.form.value.email, this.form.value.password).subscribe({
+        next: (response) => {
+      console.log('Login response:', response);
+      console.log('Token:', this.auth.getToken());
+      console.log('User:', this.auth.currentUser());
+      console.log('Navigating to /requests...');
+      this.router.navigate(['/requests']).then(result => {
+        console.log('Navigation result:', result);
+      });
+    },
+    error: () => {
+      this.error   = 'Invalid email or password';
+      this.loading = false;
+    }
+  });
   }
 }
