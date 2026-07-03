@@ -1,0 +1,43 @@
+<div class="login-wrapper">
+  <div class="login-card">
+
+    <h2>Sign in</h2>
+    <p class="subtitle">Resource Request Management</p>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+
+      <div class="field">
+        <label>Email</label>
+        <input
+          type="email"
+          formControlName="email"
+          placeholder="your@email.com"
+        />
+        <span class="error-msg"
+          *ngIf="form.get('email')?.invalid && form.get('email')?.touched">
+          Valid email is required
+        </span>
+      </div>
+
+      <div class="field">
+        <label>Password</label>
+        <input
+          type="password"
+          formControlName="password"
+          placeholder="••••••••"
+        />
+        <span class="error-msg"
+          *ngIf="form.get('password')?.invalid && form.get('password')?.touched">
+          Password is required
+        </span>
+      </div>
+
+      <span class="error-msg server-error" *ngIf="error">{{ error }}</span>
+
+      <button type="submit" [disabled]="loading">
+        {{ loading ? 'Signing in...' : 'Sign in' }}
+      </button>
+
+    </form>
+  </div>
+</div>
