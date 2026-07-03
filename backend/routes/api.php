@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\RequestController;
+use App\Http\Controllers\ApprovalController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -32,4 +33,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/requests',                       [RequestController::class, 'store']);
     Route::get('/requests/{resourceRequest}',      [RequestController::class, 'show']);
     Route::patch('/requests/{resourceRequest}/cancel', [RequestController::class, 'cancel']);
+
+        // Approval routes
+    Route::patch('/requests/{resourceRequest}/approve',  [ApprovalController::class, 'approve']);
+    Route::patch('/requests/{resourceRequest}/reject',   [ApprovalController::class, 'reject']);
+    Route::patch('/requests/{resourceRequest}/complete', [ApprovalController::class, 'complete']);
 });
