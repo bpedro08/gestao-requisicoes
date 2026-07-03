@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
@@ -9,6 +9,10 @@ export class AuthService {
 
   // signal that holds the current user — components react to this automatically
   currentUser = signal<any>(null);
+
+  isLoggedIn = computed(() => this.currentUser() !== null);
+
+  isAdmin = computed(() => this.currentUser()?.role === 'admin');
 
   constructor(private http: HttpClient, private router: Router) {
     // restore user from localStorage on page refresh
@@ -38,11 +42,6 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
-  isLoggedIn(): boolean {
-    return !!this.getToken();
-  }
 
-  isAdmin(): boolean {
-    return this.currentUser()?.role === 'admin';
-  }
+
 }
