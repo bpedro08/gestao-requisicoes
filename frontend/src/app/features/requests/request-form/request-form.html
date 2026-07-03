@@ -1,0 +1,54 @@
+<div class="form-card">
+  <h3>New Request</h3>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+
+    <div class="field">
+      <label>Resource</label>
+      <select formControlName="resource_id">
+        <option value="">Select a resource</option>
+        <option *ngFor="let r of resources" [value]="r.id">
+          {{ r.name }} ({{ r.type }})
+        </option>
+      </select>
+      <span class="error-msg"
+        *ngIf="form.get('resource_id')?.invalid && form.get('resource_id')?.touched">
+        Resource is required
+      </span>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label>Start date</label>
+        <input type="datetime-local" formControlName="start_date" />
+        <span class="error-msg"
+          *ngIf="form.get('start_date')?.invalid && form.get('start_date')?.touched">
+          Start date is required
+        </span>
+      </div>
+
+      <div class="field">
+        <label>End date</label>
+        <input type="datetime-local" formControlName="end_date" />
+        <span class="error-msg"
+          *ngIf="form.get('end_date')?.invalid && form.get('end_date')?.touched">
+          End date is required
+        </span>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Observations <span class="optional">(optional)</span></label>
+      <textarea formControlName="observations" rows="3"
+        placeholder="Any additional notes..."></textarea>
+    </div>
+
+    <div class="success-msg" *ngIf="success">{{ success }}</div>
+    <div class="error-msg server-error" *ngIf="error">{{ error }}</div>
+
+    <button type="submit" [disabled]="loading">
+      {{ loading ? 'Submitting...' : 'Submit Request' }}
+    </button>
+
+  </form>
+</div>

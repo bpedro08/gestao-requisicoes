@@ -1,0 +1,71 @@
+.form-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  margin-bottom: 2rem;
+
+  h3 {
+    margin: 0 0 1.25rem;
+    font-size: 1.1rem;
+    color: #1a1a1a;
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+
+  label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    color: #333;
+  }
+
+  .optional {
+    font-weight: 400;
+    color: #999;
+  }
+
+  input, select, textarea {
+    padding: 0.65rem 0.9rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    outline: none;
+    font-family: inherit;
+
+    &:focus { border-color:  #2563eb; }
+  }
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.error-msg { color: #dc2626; font-size: 0.8rem; margin-top: 0.3rem; }
+.server-error { display: block; margin-bottom: 0.75rem; }
+.success-msg {
+  color: #16a34a; font-size: 0.85rem;
+  margin-bottom: 0.75rem; font-weight: 500;
+}
+
+button {
+  width: 100%;
+  padding: 0.75rem;
+  background:  #2563eb;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover:not(:disabled) { background: #4a2fa0; }
+  &:disabled { opacity: 0.6; cursor: not-allowed; }
+}

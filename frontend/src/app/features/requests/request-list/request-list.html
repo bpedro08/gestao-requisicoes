@@ -1,1 +1,74 @@
-<p>request-list works!</p>
+<div class="page">
+
+  <div class="page-header">
+    <h2>{{ auth.isAdmin() ? 'All Requests' : 'My Requests' }}</h2>
+  </div>
+
+  <!-- form only for collaborators -->
+  @if (!auth.isAdmin()) {
+    <app-request-form
+      (created)="loadRequests()">
+    </app-request-form>
+  }
+  
+  <!-- loading -->
+  @if (loading) {
+    <p class="state-msg">Loading...</p>
+  }
+  
+  @if (error) {
+    <p class="state-msg error">{{ error }}</p>
+  }
+
+  <!-- empty state -->
+  @if (!loading && requests.length === 0) {
+    <div class="empty">
+      <p>No requests found.</p>
+    </div>
+  }
+
+  <!-- list -->
+  @if (!loading && requests.length > 0) {
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            @if (auth.isAdmin()) {
+              <th>User</th>
+            }
+            <th>Resource</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Status</th>
+            <th>Notes</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (r of requests; track r.id) {
+            <tr>
+              @if (auth.isAdmin()) {
+                <td>{{ r.user?.name }}</td>
+              }
+              <td>{{ r.resource?.name }}</td>
+              <td>{{ r.start_date | date:'dd/MM/yy HH:mm' }}</td>
+              <td>{{ r.end_date   | date:'dd/MM/yy HH:mm' }}</td>
+              <td><span class="badge" [ngClass]="statusClass(r.status)">{{ r.status }}</span></td>
+              <td>{{ r.admin_notes || '—' }}</td>
+              <td>
+                @if (canCancel(r) && !auth.isAdmin()) {
+                  <button
+                    class="btn-cancel"
+                    (click)="cancel(r.id)">
+                    Cancel
+                  </button>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+
+</div>
