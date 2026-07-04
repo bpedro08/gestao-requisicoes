@@ -84,8 +84,9 @@ class RequestController extends Controller
     {
         $user = $request->user();
 
-        //only the author can cancel
-        if ($resourceRequest->user_id !== $user->id) {
+        // admins can cancel any request
+        // collaborators can only cancel their own
+        if ($user->role !== 'admin' && $resourceRequest->user_id !== $user->id) {
             return response()->json(['message' => 'Forbidden'], 403);
         }
 
