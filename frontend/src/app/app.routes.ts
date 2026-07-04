@@ -21,5 +21,12 @@ export const routes: Routes = [
       import('./features/resources/resource-list/resource-list')
         .then(m => m.ResourceList)
   },
+  {
+    path: 'approval',
+    canActivate: [authGuard, adminGuard],
+    loadComponent: () =>
+      import('./features/approval/approval-list/approval-list')
+        .then(m => m.ApprovalListComponent)
+  },
   { path: '**', redirectTo: 'login' }
 ];

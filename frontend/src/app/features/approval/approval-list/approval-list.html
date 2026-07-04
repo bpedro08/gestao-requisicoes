@@ -1,0 +1,73 @@
+<div class="page">
+
+  <div class="page-header">
+    <h2>Approval Panel</h2>
+  </div>
+
+  <p *ngIf="loading" class="state-msg">Loading...</p>
+  <p *ngIf="error"   class="state-msg error">{{ error }}</p>
+
+  <div *ngIf="!loading && requests.length === 0" class="empty">
+    <p>No requests found.</p>
+  </div>
+
+  <div *ngIf="!loading && requests.length > 0" class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Resource</th>
+          <th>Start</th>
+          <th>End</th>
+          <th>Status</th>
+          <th>User Notes</th>
+          <th>Admin Notes</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let r of requests">
+          <td>{{ r.user?.name }}</td>
+          <td>{{ r.resource?.name }}</td>
+          <td>{{ r.start_date | date:'dd/MM/yy HH:mm' }}</td>
+          <td>{{ r.end_date   | date:'dd/MM/yy HH:mm' }}</td>
+          <td>
+            <span class="badge" [ngClass]="statusClass(r.status)">
+              {{ r.status }}
+            </span>
+          </td>
+          <td>{{ r.observations || '—' }}</td>
+
+          <!-- admin notes input only for pending -->
+          <td>
+            <input
+              *ngIf="r.status === 'pending'"
+              type="text"
+              [(ngModel)]="adminNotes[r.id]"
+              placeholder="Add notes..."
+              class="notes-input"
+            />
+            <span *ngIf="r.status !== 'pending'">
+              {{ r.admin_notes || '—' }}
+            </span>
+          </td>
+
+          <!-- action buttons based on status -->
+          <td class="actions">
+            <ng-container *ngIf="r.status === 'pending'">
+              <button class="btn-approve" (click)="approve(r.id)">Approve</button>
+              <button class="btn-reject"  (click)="reject(r.id)">Reject</button>
+            </ng-container>
+            <ng-container *ngIf="r.status === 'approved'">
+              <button class="btn-complete" (click)="complete(r.id)">Complete</button>
+            </ng-container>
+            <span *ngIf="r.status === 'rejected' ||
+                         r.status === 'completed' ||
+                         r.status === 'cancelled'" class="no-action">—</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

@@ -30,4 +30,8 @@ export class RequestService {
       admin_notes: adminNotes
     });
   }
+
+  complete(id: number) {
+  return this.http.patch<any>(`${this.apiUrl}/requests/${id}/complete`, {});
+  }
 }
