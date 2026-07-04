@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { CommonModule, DatePipe } from '@angular/common';
 import { AuthService } from '../../../core/services/auth.service';
 import { RequestService } from '../../../core/services/request.service';
 import { RequestForm } from '../request-form/request-form';
@@ -7,7 +7,7 @@ import { RequestForm } from '../request-form/request-form';
 @Component({
   selector: 'app-request-list',
   standalone: true,
-  imports: [CommonModule, RequestForm],
+  imports: [CommonModule, DatePipe, RequestForm],
   templateUrl: './request-list.html',
   styleUrl: './request-list.scss'
 })
@@ -18,7 +18,8 @@ export class RequestList implements OnInit {
 
   constructor(
     public auth: AuthService,
-    private requestService: RequestService
+    private requestService: RequestService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -31,10 +32,13 @@ export class RequestList implements OnInit {
       next: res => {
         this.requests = res;
         this.loading  = false;
+        this.cdr.detectChanges();
       },
-      error: () => {
+      error: (err) => {
+        console.log('Requests error:', err);
         this.error   = 'Failed to load requests';
         this.loading = false;
+        this.cdr.detectChanges();
       }
     });
   }

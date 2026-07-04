@@ -12,9 +12,9 @@
   }
   
   <!-- loading -->
-  @if (loading) {
-    <p class="state-msg">Loading...</p>
-  }
+ <div *ngIf="loading" class="skeleton-wrapper">
+  <div class="skeleton-row" *ngFor="let i of [1,2,3]"></div>
+</div>
   
   @if (error) {
     <p class="state-msg error">{{ error }}</p>
