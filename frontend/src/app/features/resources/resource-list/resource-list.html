@@ -1,0 +1,56 @@
+<div class="page">
+
+  <div class="page-header">
+    <h2>Resources</h2>
+    <button (click)="openCreate()">+ New Resource</button>
+  </div>
+
+  <app-resource-form
+    *ngIf="showForm"
+    [resource]="editingResource"
+    (saved)="onSaved()"
+    (cancelled)="closeForm()">
+  </app-resource-form>
+
+  <p *ngIf="loading" class="state-msg">Loading...</p>
+  <p *ngIf="error"   class="state-msg error">{{ error }}</p>
+
+  <div *ngIf="!loading && resources.length === 0" class="empty">
+    <p>No resources found.</p>
+  </div>
+
+  <div *ngIf="!loading && resources.length > 0" class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let r of resources">
+          <td>{{ r.name }}</td>
+          <td>{{ r.type }}</td>
+          <td>{{ r.description || '—' }}</td>
+          <td>
+            <span class="badge" [ngClass]="r.is_active ? 'badge-active' : 'badge-inactive'">
+              {{ r.is_active ? 'Active' : 'Inactive' }}
+            </span>
+          </td>
+          <td class="actions">
+            <button class="btn-edit" (click)="openEdit(r)">Edit</button>
+            <button class="btn-toggle"
+              (click)="toggleActive(r)">
+              {{ r.is_active ? 'Deactivate' : 'Activate' }}
+            </button>
+            <button class="btn-delete" (click)="delete(r.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

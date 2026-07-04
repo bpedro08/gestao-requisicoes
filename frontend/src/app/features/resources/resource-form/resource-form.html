@@ -1,0 +1,45 @@
+<div class="form-card">
+  <h3>{{ isEditMode ? 'Edit Resource' : 'New Resource' }}</h3>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+
+    <div class="field">
+      <label>Name</label>
+      <input type="text" formControlName="name" placeholder="Resource name" />
+      <span class="error-msg"
+        *ngIf="form.get('name')?.invalid && form.get('name')?.touched">
+        Name is required
+      </span>
+    </div>
+
+    <div class="field">
+      <label>Type</label>
+      <select formControlName="type">
+        <option value="">Select a type</option>
+        <option *ngFor="let t of types" [value]="t">{{ t }}</option>
+      </select>
+      <span class="error-msg"
+        *ngIf="form.get('type')?.invalid && form.get('type')?.touched">
+        Type is required
+      </span>
+    </div>
+
+    <div class="field">
+      <label>Description <span class="optional">(optional)</span></label>
+      <textarea formControlName="description" rows="3"
+        placeholder="Brief description..."></textarea>
+    </div>
+
+    <div class="error-msg server-error" *ngIf="error">{{ error }}</div>
+
+    <div class="form-actions">
+      <button type="button" class="btn-secondary" (click)="cancelled.emit()">
+        Cancel
+      </button>
+      <button type="submit" [disabled]="loading">
+        {{ loading ? 'Saving...' : (isEditMode ? 'Save Changes' : 'Create Resource') }}
+      </button>
+    </div>
+
+  </form>
+</div>
