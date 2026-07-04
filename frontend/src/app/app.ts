@@ -8,16 +8,8 @@ import { Navbar } from './shared/navbar/navbar';
   imports: [RouterOutlet, Navbar],
   template: `
     <app-navbar />
-    <main class="container">
       <router-outlet />
-    </main>
   `,
-  styles: [`
-    .container {
-      max-width: 1100px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-    }
-  `]
+  styles: []
 })
 export class App {}

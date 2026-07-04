@@ -6,7 +6,7 @@
   <div class="navbar-links">
 
     <!-- visible to everyone -->
-    <a routerLink="/requests">My Requests</a>
+    <a routerLink="/requests">{{ auth.isAdmin() ? 'Requests' : 'My Requests' }}</a>
 
     <!-- admin only -->
     <ng-container *ngIf="auth.isAdmin()">

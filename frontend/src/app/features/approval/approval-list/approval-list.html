@@ -1,3 +1,4 @@
+<div class="page-container">
 <div class="page">
 
   <div class="page-header">
@@ -60,6 +61,7 @@
             </ng-container>
             <ng-container *ngIf="r.status === 'approved'">
               <button class="btn-complete" (click)="complete(r.id)">Complete</button>
+              <button class="btn-reject" (click)="cancelRequest(r.id)">Cancel</button>
             </ng-container>
             <span *ngIf="r.status === 'rejected' ||
                          r.status === 'completed' ||
@@ -69,5 +71,7 @@
       </tbody>
     </table>
   </div>
+
+</div>
 
 </div>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -18,6 +18,7 @@ export class Login {
 
   constructor(
     private fb: FormBuilder,
+    private cdr: ChangeDetectorRef,
     private auth: AuthService,
     private router: Router
   ) {
@@ -46,6 +47,7 @@ export class Login {
     error: () => {
       this.error   = 'Invalid email or password';
       this.loading = false;
+      this.cdr.detectChanges();
     }
   });
   }

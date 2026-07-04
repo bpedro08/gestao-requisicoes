@@ -10,7 +10,7 @@ import { RequestService } from '../../../core/services/request.service';
   templateUrl: './approval-list.html',
   styleUrl: './approval-list.scss'
 })
-export class ApprovalListComponent implements OnInit {
+export class ApprovalList implements OnInit {
   requests:    any[] = [];
   loading      = true;
   error        = '';
@@ -76,4 +76,12 @@ export class ApprovalListComponent implements OnInit {
     };
     return map[status] || '';
   }
+
+  cancelRequest(id: number) {
+  if (!confirm('Cancel this request?')) return;
+  this.requestService.cancel(id).subscribe({
+    next: () => this.loadRequests(),
+    error: (err) => alert(err.error?.message || 'Failed to cancel')
+  });
+}
 }
