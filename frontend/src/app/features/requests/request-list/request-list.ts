@@ -3,6 +3,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { AuthService } from '../../../core/services/auth.service';
 import { RequestService } from '../../../core/services/request.service';
 import { RequestForm } from '../request-form/request-form';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-request-list',
@@ -19,11 +20,13 @@ export class RequestList implements OnInit {
   constructor(
     public auth: AuthService,
     private requestService: RequestService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private title: Title
   ) {}
 
   ngOnInit() {
     this.loadRequests();
+    this.title.setTitle('Requests | ReqManager');
   }
 
   loadRequests() {

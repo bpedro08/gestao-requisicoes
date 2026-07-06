@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RequestService } from '../../../core/services/request.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-approval-list',
@@ -18,11 +19,13 @@ export class ApprovalList implements OnInit {
 
   constructor(
     private requestService: RequestService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private title: Title
   ) {}
 
   ngOnInit() {
     this.loadRequests();
+    this.title.setTitle('Approvals | ReqManager');
   }
 
   loadRequests() {

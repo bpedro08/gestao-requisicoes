@@ -30,6 +30,12 @@
       color: white;
     }
   }
+
+  .active-link {
+  color: white !important;
+  border-bottom: 2px solid white;
+  padding-bottom: 2px;
+  } 
 }
 
 .navbar-user {
@@ -65,3 +71,4 @@
     }
   }
 }
+

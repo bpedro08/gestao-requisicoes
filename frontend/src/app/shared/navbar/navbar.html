@@ -5,14 +5,15 @@
 
   <div class="navbar-links">
 
-    <!-- visible to everyone -->
-    <a routerLink="/requests">{{ auth.isAdmin() ? 'Requests' : 'My Requests' }}</a>
+   <a routerLink="/requests" routerLinkActive="active-link">
+      {{ auth.isAdmin() ? 'All Requests' : 'My Requests' }}
+    </a>
 
-    <!-- admin only -->
-    <ng-container *ngIf="auth.isAdmin()">
-      <a routerLink="/resources">Resources</a>
-      <a routerLink="/approval">Approvals</a>
-    </ng-container>
+    <!-- Admin only -->
+    @if (auth.isAdmin()) {
+      <a routerLink="/resources" routerLinkActive="active-link">Resources</a>
+      <a routerLink="/approval" routerLinkActive="active-link">Approvals</a>
+    }
 
   </div>
 

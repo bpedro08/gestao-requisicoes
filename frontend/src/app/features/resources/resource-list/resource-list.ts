@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ResourceService } from '../../../core/services/resource.service';
 import { ResourceForm } from '../resource-form/resource-form';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-resource-list',
@@ -19,11 +20,13 @@ export class ResourceList implements OnInit {
 
   constructor(
     private resourceService: ResourceService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private title: Title
   ) {}
 
   ngOnInit() {
     this.loadResources();
+    this.title.setTitle('Resources | ReqManager');
   }
 
   loadResources() {
