@@ -38,7 +38,6 @@ export class RequestList implements OnInit {
         this.cdr.detectChanges();
       },
       error: (err) => {
-        console.log('Requests error:', err);
         this.error   = 'Failed to load requests';
         this.loading = false;
         this.cdr.detectChanges();

@@ -12,7 +12,7 @@ class AuthController extends Controller
 {
     public function login(LoginRequest $request): JsonResponse
     {
-        // attempt returns false if credentials are wrong
+        // returns false if credentials are wrong
         if (!Auth::attempt($request->only('email', 'password'))) {
             return response()->json([
                 'message' => 'Invalid credentials'

@@ -1,34 +1,34 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+
 import { ResourceService } from '../../../core/services/resource.service';
 
 @Component({
   selector: 'app-resource-form',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './resource-form.html',
-  styleUrl: './resource-form.scss'
+  styleUrl: './resource-form.scss',
 })
 export class ResourceForm implements OnInit {
   @Input() resource: any = null; // null = create mode, object = edit mode
-  @Output() saved    = new EventEmitter<void>();
+  @Output() saved = new EventEmitter<void>();
   @Output() cancelled = new EventEmitter<void>();
 
   form: FormGroup;
   loading = false;
-  error   = '';
+  error = '';
 
   types = ['space', 'equipment', 'vehicle', 'other'];
 
   constructor(
     private fb: FormBuilder,
-    private resourceService: ResourceService
+    private resourceService: ResourceService,
   ) {
     this.form = this.fb.group({
-      name:        ['', Validators.required],
-      type:        ['', Validators.required],
-      description: ['']
+      name: ['', Validators.required],
+      type: ['', Validators.required],
+      description: [''],
     });
   }
 
@@ -36,9 +36,9 @@ export class ResourceForm implements OnInit {
     // if editing, populate the form with existing values
     if (this.resource) {
       this.form.patchValue({
-        name:        this.resource.name,
-        type:        this.resource.type,
-        description: this.resource.description
+        name: this.resource.name,
+        type: this.resource.type,
+        description: this.resource.description,
       });
     }
   }
@@ -51,7 +51,7 @@ export class ResourceForm implements OnInit {
     if (this.form.invalid) return;
 
     this.loading = true;
-    this.error   = '';
+    this.error = '';
 
     const call = this.isEditMode
       ? this.resourceService.update(this.resource.id, this.form.value)
@@ -63,9 +63,9 @@ export class ResourceForm implements OnInit {
         this.saved.emit();
       },
       error: (err) => {
-        this.error   = err.error?.message || 'Failed to save resource';
+        this.error = err.error?.message || 'Failed to save resource';
         this.loading = false;
-      }
+      },
     });
   }
 }

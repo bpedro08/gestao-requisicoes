@@ -1,15 +1,16 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
+
 import { AuthService } from '../../../core/services/auth.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './login.html',
-  styleUrl: './login.scss'
+  styleUrl: './login.scss',
 })
 export class Login {
   form: FormGroup;
@@ -20,35 +21,33 @@ export class Login {
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
     private auth: AuthService,
-    private router: Router
+    private router: Router,
+    private title: Title,
   ) {
     this.form = this.fb.group({
-      email:    ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required],
     });
+    this.title.setTitle('Login | ReqManager');
   }
 
   submit() {
-  if (this.form.invalid) return;
+    if (this.form.invalid) return;
 
-  this.loading = true;
-  this.error   = '';
+    this.loading = true;
+    this.error = '';
 
-      this.auth.login(this.form.value.email, this.form.value.password).subscribe({
-        next: (response) => {
-      console.log('Login response:', response);
-      console.log('Token:', this.auth.getToken());
-      console.log('User:', this.auth.currentUser());
-      console.log('Navigating to /requests...');
-      this.router.navigate(['/requests']).then(result => {
-        console.log('Navigation result:', result);
-      });
-    },
-    error: () => {
-      this.error   = 'Invalid email or password';
-      this.loading = false;
-      this.cdr.detectChanges();
-    }
-  });
+    this.auth.login(this.form.value.email, this.form.value.password).subscribe({
+      next: (response) => {
+        this.router.navigate(['/requests']).then((result) => {
+          console.log('Navigation result:', result);
+        });
+      },
+      error: () => {
+        this.error = 'Invalid email or password';
+        this.loading = false;
+        this.cdr.detectChanges();
+      },
+    });
   }
 }

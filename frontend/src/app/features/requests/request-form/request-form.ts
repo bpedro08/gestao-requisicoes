@@ -1,15 +1,15 @@
 import { Component, EventEmitter, OnInit, Output, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+
 import { RequestService } from '../../../core/services/request.service';
 import { ResourceService } from '../../../core/services/resource.service';
 
 @Component({
   selector: 'app-request-form',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './request-form.html',
-  styleUrl: './request-form.scss'
+  styleUrl: './request-form.scss',
 })
 export class RequestForm implements OnInit {
   @Output() created = new EventEmitter<void>();
@@ -17,29 +17,30 @@ export class RequestForm implements OnInit {
   form: FormGroup;
   resources: any[] = [];
   loading = false;
-  error   = '';
+  error = '';
   success = '';
 
   constructor(
     private fb: FormBuilder,
     private requestService: RequestService,
     private resourceService: ResourceService,
-    private cdr: ChangeDetectorRef) {
+    private cdr: ChangeDetectorRef,
+  ) {
     this.form = this.fb.group({
-      resource_id:  ['', Validators.required],
-      start_date:   ['', Validators.required],
-      end_date:     ['', Validators.required],
-      observations: ['']
+      resource_id: ['', Validators.required],
+      start_date: ['', Validators.required],
+      end_date: ['', Validators.required],
+      observations: [''],
     });
   }
 
   ngOnInit() {
     this.resourceService.getActive().subscribe({
-      next: res => {
+      next: (res) => {
         this.resources = res;
         this.cdr.detectChanges();
       },
-      error: () => this.error = 'Failed to load resources'
+      error: () => (this.error = 'Failed to load resources'),
     });
   }
 
@@ -47,7 +48,7 @@ export class RequestForm implements OnInit {
     if (this.form.invalid) return;
 
     this.loading = true;
-    this.error   = '';
+    this.error = '';
     this.success = '';
 
     this.requestService.create(this.form.value).subscribe({
@@ -56,14 +57,14 @@ export class RequestForm implements OnInit {
         this.form.reset();
         this.loading = false;
         this.created.emit();
-        setTimeout(() => this.success = '', 3000);
-        this.cdr.detectChanges(); 
+        setTimeout(() => (this.success = ''), 3000);
+        this.cdr.detectChanges();
       },
       error: (err) => {
-        this.error   = err.error?.message || 'Failed to create request';
+        this.error = err.error?.message || 'Failed to create request';
         this.loading = false;
         this.cdr.detectChanges();
-      }
+      },
     });
   }
 }
