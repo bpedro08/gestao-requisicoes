@@ -111,3 +111,19 @@ table {
   margin: 2rem auto;
   padding: 0 1rem;
 }
+
+.filters {
+  margin-bottom: 1rem;
+
+  select {
+    padding: 0.5rem 0.9rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    outline: none;
+    background: white;
+    cursor: pointer;
+
+    &:focus { border-color: #5c3ab7; }
+  }
+}

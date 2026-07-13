@@ -17,6 +17,8 @@ export class ResourceList implements OnInit {
   error           = '';
   showForm        = false;
   editingResource: any     = null;
+  selectedType     = 'all';
+  selectedIsActive = 'all';
 
   constructor(
     private resourceService: ResourceService,
@@ -29,21 +31,25 @@ export class ResourceList implements OnInit {
     this.title.setTitle('Resources | ReqManager');
   }
 
-  loadResources() {
-    this.loading = true;
-    this.resourceService.getAll().subscribe({
-      next: res => {
-        this.resources = res;
-        this.loading   = false;
-        this.cdr.detectChanges();
-      },
-      error: () => {
-        this.error   = 'Failed to load resources';
-        this.loading = false;
-        this.cdr.detectChanges();
-      }
-    });
-  }
+loadResources() {
+  this.loading = true;
+  const filters: any = {};
+  if (this.selectedType     !== 'all') filters.type      = this.selectedType;
+  if (this.selectedIsActive !== 'all') filters.is_active = this.selectedIsActive;
+
+  this.resourceService.getAll(filters).subscribe({
+    next: res => {
+      this.resources = res;
+      this.loading   = false;
+      this.cdr.detectChanges();
+    },
+    error: () => {
+      this.error   = 'Failed to load resources';
+      this.loading = false;
+      this.cdr.detectChanges();
+    }
+  });
+}
 
   openCreate() {
     this.editingResource = null;
@@ -79,5 +85,15 @@ export class ResourceList implements OnInit {
       next: () => this.loadResources(),
       error: () => alert('Failed to delete resource')
     });
+  }
+
+    onTypeChange(value: string) {
+    this.selectedType = value;
+    this.loadResources();
+  }
+
+  onActiveChange(value: string) {
+    this.selectedIsActive = value;
+    this.loadResources();
   }
 }

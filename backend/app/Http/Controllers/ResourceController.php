@@ -25,7 +25,19 @@ class ResourceController extends Controller
             return response()->json(['message' => 'Forbidden'], 403);
         }
 
-        return response()->json(Resource::all());
+        $query = Resource::query();
+
+        // filtro por tipo
+        if ($request->has('type') && $request->type !== 'all') {
+            $query->where('type', $request->type);
+        }
+
+        // filtro por estado
+        if ($request->has('is_active') && $request->is_active !== 'all') {
+            $query->where('is_active', $request->is_active === 'true');
+        }
+
+        return response()->json($query->get());
     }
 
     // POST /api/resources

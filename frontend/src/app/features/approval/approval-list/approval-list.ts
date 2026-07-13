@@ -16,6 +16,7 @@ export class ApprovalList implements OnInit {
   loading      = true;
   error        = '';
   adminNotes:  { [id: number]: string } = {};
+  selectedStatus = 'all';
 
   constructor(
     private requestService: RequestService,
@@ -28,9 +29,15 @@ export class ApprovalList implements OnInit {
     this.title.setTitle('Approvals | ReqManager');
   }
 
+  onStatusChange(value: string) {
+  this.selectedStatus = value;
+  this.loadRequests();
+}
+
   loadRequests() {
     this.loading = true;
-    this.requestService.getAll().subscribe({
+    const filters = this.selectedStatus !== 'all' ? { status: this.selectedStatus } : {};
+    this.requestService.getAll(filters).subscribe({
       next: res => {
         this.requests = res;
         this.loading  = false;

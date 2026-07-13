@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class ResourceService {
@@ -11,8 +11,12 @@ export class ResourceService {
     return this.http.get<any[]>(`${this.apiUrl}/resources`);
   }
 
-  getAll() {
-    return this.http.get<any[]>(`${this.apiUrl}/resources/all`);
+getAll(filters: any = {}) {
+  const params = new HttpParams();
+  let p = params;
+  if (filters.type)      p = p.set('type', filters.type);
+  if (filters.is_active !== undefined) p = p.set('is_active', filters.is_active);
+  return this.http.get<any[]>(`${this.apiUrl}/resources/all`, { params: p });
   }
 
   create(data: any) {

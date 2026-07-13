@@ -4,6 +4,17 @@
       <h2>Approval Panel</h2>
     </div>
 
+    <div class="filters">
+  <select (change)="onStatusChange($any($event.target).value)">
+    <option value="all">All statuses</option>
+    <option value="pending">Pending</option>
+    <option value="approved">Approved</option>
+    <option value="rejected">Rejected</option>
+    <option value="completed">Completed</option>
+    <option value="cancelled">Cancelled</option>
+  </select>
+</div>
+
     @if (loading) {
       <p class="state-msg">Loading...</p>
     }

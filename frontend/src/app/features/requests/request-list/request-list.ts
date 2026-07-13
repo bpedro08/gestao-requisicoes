@@ -16,6 +16,7 @@ export class RequestList implements OnInit {
   requests: any[] = [];
   loading = true;
   error   = '';
+  selectedStatus = 'all';
 
   constructor(
     public auth: AuthService,
@@ -31,7 +32,8 @@ export class RequestList implements OnInit {
 
   loadRequests() {
     this.loading = true;
-    this.requestService.getAll().subscribe({
+    const filters = this.selectedStatus !== 'all' ? { status: this.selectedStatus } : {};
+    this.requestService.getAll(filters).subscribe({
       next: res => {
         this.requests = res;
         this.loading  = false;
@@ -68,4 +70,9 @@ export class RequestList implements OnInit {
     };
     return map[status] || '';
   }
+
+  onStatusChange(status: string) {
+  this.selectedStatus = status;
+  this.loadRequests();
+}
 }

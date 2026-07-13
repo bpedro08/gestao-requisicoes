@@ -12,17 +12,19 @@ class RequestController extends Controller
     // GET /api/requests — collaborator sees own, admin sees all
     public function index(Request $request): JsonResponse
     {
-        $user = $request->user();
+        $user  = $request->user();
+        $query = ResourceRequest::with(['user', 'resource']);
 
-        if ($user->role === 'admin') {
-            $requests = ResourceRequest::with(['user', 'resource'])->get();
-        } else {
-            $requests = ResourceRequest::with(['user', 'resource'])
-                ->where('user_id', $user->id)
-                ->get();
+        if ($user->role !== 'admin') {
+            $query->where('user_id', $user->id);
         }
 
-        return response()->json($requests);
+        // filtro por estado
+        if ($request->has('status') && $request->status !== 'all') {
+            $query->where('status', $request->status);
+        }
+
+        return response()->json($query->get());
     }
 
     // POST /api/requests

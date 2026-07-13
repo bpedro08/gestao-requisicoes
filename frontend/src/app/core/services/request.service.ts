@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class RequestService {
@@ -7,8 +7,10 @@ export class RequestService {
 
   constructor(private http: HttpClient) {}
 
-  getAll() {
-    return this.http.get<any[]>(`${this.apiUrl}/requests`);
+  getAll(filters: any = {}) {
+    let p = new HttpParams();
+    if (filters.status) p = p.set('status', filters.status);
+    return this.http.get<any[]>(`${this.apiUrl}/requests`, { params: p });
   }
 
   create(data: any) {
