@@ -107,14 +107,37 @@ http://localhost:4200
 
 ---
 
-## Parar o Sistema
+## Comandos Úteis
 
-```bash
-# Parar os containers (dados preservados)
-docker compose down
+### Docker
 
-# Parar os containers e apagar todos os dados
-docker compose down -v
-```
+| Comando | Descrição |
+|---|---|
+| `docker compose up -d` | Inicia todos os containers em background |
+| `docker compose down` | Para e remove os containers (dados preservados) |
+| `docker compose ps` | Lista o estado de todos os containers |
+| `docker compose logs -f backend` | Acompanha os logs do backend em tempo real |
 
----
+### Backend (Laravel)
+
+| Comando | Descrição |
+|---|---|
+| `docker compose exec backend bash` | Acede ao terminal do container do backend |
+| `docker compose exec backend php artisan migrate` | Aplica novas migrations |
+| `docker compose exec backend php artisan migrate:fresh --seed` | Reset completo da base de dados com dados de teste |
+| `docker compose exec backend php artisan make:model ModelName -mcr` | Cria model, migration, controller e resource |
+| `docker compose exec backend php artisan route:list` | Lista todas as rotas registadas |
+| `docker compose exec backend php artisan optimize:clear` | Limpa todas as caches (config, rotas, views) |
+| `docker compose exec backend php artisan tinker` | Abre o REPL interativo do Laravel |
+
+### Base de Dados
+
+| Comando | Descrição |
+|---|---|
+| `docker compose exec mysql mysql -u root -p` | Acede diretamente ao MySQL |
+
+### Frontend (Angular)
+
+| Comando | Descrição |
+|---|---|
+| `docker compose exec frontend bash` | Acede ao terminal do container do frontend |
