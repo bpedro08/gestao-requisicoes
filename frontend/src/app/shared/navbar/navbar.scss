@@ -64,11 +64,24 @@
     border-radius: 6px;
     font-size: 0.85rem;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: 0.2s;
 
     &:hover {
       background: rgba(255,255,255,0.25);
     }
+  }
+
+}
+
+  .brand-link {
+  color: white;
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+
+  &:hover {
+    opacity: 0.85;
   }
 }
 

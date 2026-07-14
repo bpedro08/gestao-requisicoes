@@ -1,25 +1,27 @@
-@if (auth.isLoggedIn()) {
-  <nav class="navbar">
-    <div class="navbar-brand">
-      <span>ReqManager</span>
-    </div>
+<nav class="navbar"> 
+  @if (auth.isLoggedIn()) {
+  <div class="navbar-brand">
+    <a routerLink="{{ auth.isAdmin() ? '/dashboard' : '/requests' }}" 
+       class="brand-link">ReqManager</a>
+  </div>
 
-    <div class="navbar-links">
-      <a routerLink="/requests" routerLinkActive="active-link">
-        {{ auth.isAdmin() ? 'All Requests' : 'My Requests' }}
-      </a>
+  <div class="navbar-links">
+    <!-- collaborator and admin -->
+    <a routerLink="/requests" routerLinkActive="active-link">
+      {{ auth.isAdmin() ? 'All Requests' : 'My Requests' }}
+    </a>
 
-      <!-- Admin only -->
-      @if (auth.isAdmin()) {
-        <a routerLink="/resources" routerLinkActive="active-link">Resources</a>
-        <a routerLink="/approval" routerLinkActive="active-link">Approvals</a>
-      }
-    </div>
+    <!-- admin only -->
+    @if (auth.isAdmin()) {
+      <a routerLink="/resources" routerLinkActive="active-link">Resources</a>
+      <a routerLink="/approval"  routerLinkActive="active-link">Approvals</a>
+    }
+  </div>
 
-    <div class="navbar-user">
-      <span class="user-name">{{ auth.currentUser()?.name }}</span>
-      <span class="user-role">{{ auth.currentUser()?.role }}</span>
-      <button (click)="logout()">Logout</button>
-    </div>
-  </nav>
+  <div class="navbar-user">
+    <span class="user-name">{{ auth.currentUser()?.name }}</span>
+    <span class="user-role">{{ auth.currentUser()?.role }}</span>
+    <button (click)="logout()">Logout</button>
+  </div>
 }
+</nav>

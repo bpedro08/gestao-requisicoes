@@ -31,5 +31,12 @@ export const routes: Routes = [
       import('./features/approval/approval-list/approval-list')
         .then(m => m.ApprovalList)
   },
+  {
+  path: 'dashboard',
+  canActivate: [authGuard, adminGuard],
+  loadComponent: () =>
+    import('./features/dashboard/dashboard/dashboard')
+      .then(m => m.Dashboard)
+  },
   { path: '**', redirectTo: 'login' }
 ];

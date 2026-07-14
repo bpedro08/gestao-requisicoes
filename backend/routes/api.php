@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\RequestController;
 use App\Http\Controllers\ApprovalController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -15,6 +16,9 @@ Route::get('/user', function (Request $request) {
 Route::post('/login',  [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function () {
+
+    //Admin Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index']);
 
     // Auth routes
     Route::post('/logout', [AuthController::class, 'logout']);

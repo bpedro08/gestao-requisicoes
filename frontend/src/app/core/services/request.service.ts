@@ -36,4 +36,8 @@ export class RequestService {
   complete(id: number) {
   return this.http.patch<any>(`${this.apiUrl}/requests/${id}/complete`, {});
   }
+
+  getDashboard() {
+  return this.http.get<any>(`${this.apiUrl}/dashboard`);
+  }
 }

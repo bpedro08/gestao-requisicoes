@@ -1,0 +1,67 @@
+<div class="page-container">
+  <div class="page-header">
+    <h2>Dashboard</h2>
+  </div>
+
+  <!--  Loading -->
+  @if (loading) {
+    <div class="state-msg">Loading...</div>
+  }
+
+  <!--  Stats Grid -->
+  @if (!loading && stats) {
+    <div class="stats-grid">
+      <div class="stat-card pending">
+        <div class="stat-number">{{ stats.pending }}</div>
+        <div class="stat-label">Pending Requests</div>
+        <a routerLink="/approval" class="stat-link">Review →</a>
+      </div>
+
+      <div class="stat-card approved">
+        <div class="stat-number">{{ stats.approved }}</div>
+        <div class="stat-label">Approved Requests</div>
+      </div>
+
+      <div class="stat-card resources">
+        <div class="stat-number">{{ stats.active_resources }}</div>
+        <div class="stat-label">Active Resources</div>
+        <a routerLink="/resources" class="stat-link">Manage →</a>
+      </div>
+
+      <div class="stat-card total">
+        <div class="stat-number">{{ stats.total_requests }}</div>
+        <div class="stat-label">Total Requests</div>
+      </div>
+    </div>
+  }
+
+  <!--  Breakdown -->
+  @if (!loading && stats) {
+    <div class="breakdown">
+      <h3>Requests Breakdown</h3>
+      <div class="breakdown-grid">
+        <div class="breakdown-item">
+          <span class="badge badge-pending">Pending</span>
+          <span class="count">{{ stats.pending }}</span>
+        </div>
+        <div class="breakdown-item">
+          <span class="badge badge-approved">Approved</span>
+          <span class="count">{{ stats.approved }}</span>
+        </div>
+        <div class="breakdown-item">
+          <span class="badge badge-rejected">Rejected</span>
+          <span class="count">{{ stats.rejected }}</span>
+        </div>
+        <div class="breakdown-item">
+          <span class="badge badge-completed">Completed</span>
+          <span class="count">{{ stats.completed }}</span>
+        </div>
+        <div class="breakdown-item">
+          <span class="badge badge-cancelled">Cancelled</span>
+          <span class="count">{{ stats.cancelled }}</span>
+        </div>
+      </div>
+    </div>
+  }
+
+</div>

@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef, NgZone } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -22,6 +22,7 @@ export class Login {
     private cdr: ChangeDetectorRef,
     private auth: AuthService,
     private router: Router,
+    private ngZone: NgZone,
     private title: Title,
   ) {
     this.form = this.fb.group({
@@ -38,11 +39,15 @@ export class Login {
     this.error = '';
 
     this.auth.login(this.form.value.email, this.form.value.password).subscribe({
-      next: (response) => {
-        this.router.navigate(['/requests']).then((result) => {
-          console.log('Navigation result:', result);
-        });
-      },
+      next: () => {
+      this.ngZone.run(() => {
+        if (this.auth.isAdmin()) {
+          this.router.navigate(['/dashboard']);
+        } else {
+          this.router.navigate(['/requests']);
+        }
+      });
+    },
       error: () => {
         this.error = 'Invalid email or password';
         this.loading = false;
